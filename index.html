@@ -1,29 +1,107 @@
 <!DOCTYPE html>
-<html lang="eng">
-    <head>
-        <title>Reljin</title>
-    </head>
-    <body>
-        <center>
-        <p id="ree">I am reljin</p>
-    
-        <style>
-            #ree{
-                background-color: beige;
-                color: brown;
-            }
-        </style>
-        </center>
-        <div style="border: 3px solid silver;
-        background-color: rgb(0, 255, 221) ;
-        color: rgb(0, 0, 0);
-        
-        border-radius: 3320px;
-        border;
-        text-align: center;
-        ">
-            I LOVE ADVENTURE
-        </div>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fast Typing Alphabet Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #333;
+    }
+    #letter {
+      font-size: 100px;
+      color: #007BFF;
+      margin: 40px 0;
+    }
+    #score, #timer {
+      font-size: 24px;
+      margin: 10px;
+    }
+    #startBtn {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #startBtn:hover {
+      background-color: darkgreen;
+    }
+    #gameOver {
+      font-size: 28px;
+      color: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
 
-    </body>
+  <h1>Fast Typing Alphabet Game</h1>
+  <div id="score">Score: 0</div>
+  <div id="timer">Time Left: 30s</div>
+  <div id="letter">?</div>
+  <button id="startBtn">Start Game</button>
+  <div id="gameOver"></div>
+
+  <script>
+    let score = 0;
+    let timeLeft = 30;
+    let currentLetter = '';
+    let gameInterval;
+
+    const scoreDisplay = document.getElementById('score');
+    const timerDisplay = document.getElementById('timer');
+    const letterDisplay = document.getElementById('letter');
+    const gameOverDisplay = document.getElementById('gameOver');
+    const startBtn = document.getElementById('startBtn');
+
+    function getRandomLetter() {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      return letters[Math.floor(Math.random() * letters.length)];
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = 30;
+      currentLetter = getRandomLetter();
+      letterDisplay.textContent = currentLetter;
+      scoreDisplay.textContent = "Score: 0";
+      timerDisplay.textContent = "Time Left: 30s";
+      gameOverDisplay.textContent = "";
+      startBtn.disabled = true;
+
+      gameInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(gameInterval);
+          letterDisplay.textContent = "X";
+          gameOverDisplay.textContent = `Game Over! Your Score: ${score}`;
+          startBtn.disabled = false;
+        }
+      }, 1000);
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (timeLeft > 0 && e.key.toUpperCase() === currentLetter) {
+        score++;
+        scoreDisplay.textContent = `Score: ${score}`;
+        currentLetter = getRandomLetter();
+        letterDisplay.textContent = currentLetter;
+      }
+    });
+
+    startBtn.addEventListener('click', startGame);
+  </script>
+
+</body>
 </html>
+
